@@ -12,7 +12,7 @@ class TodoController extends Controller
     public function index()
     {
         $todos = Todo::orderByRaw('deadline is null asc')->get();
-        // Return a view with the todo items
+
         return view('list', compact('todos'));
     }
 
