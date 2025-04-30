@@ -14,7 +14,7 @@
     @endif
     <style>
         .kanban-column-content {
-            height: 550px;
+            height: 500px;
             overflow-y: scroll;
         }
     </style>
