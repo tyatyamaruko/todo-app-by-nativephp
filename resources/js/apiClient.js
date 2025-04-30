@@ -1,65 +1,26 @@
-export function createTask (taskTitle, taskDescription,taskDeadline) {
-    fetch('/create', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            title: taskTitle,
-            description: taskDescription,
-            deadline: taskDeadline
-        })
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
-    .then(data => {
-        window.location.reload();
-    })
-    .catch(error => {
-        throw error;
-    });
-}
+export default class ApiClient {
+    constructor(baseURL) {
+        this.baseURL = baseURL;
+    }
 
-export function updateTaskStatus(taskId, status) {
-    fetch(`/update/${taskId}`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            status: status
-        })
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
-    .then(data => {
-        window.location.reload();
-    });
-}
+    async get(endpoint) {
+        return await fetch(`${this.baseURL}${endpoint}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        });
+    }
 
-export function deleteTask(taskId) {
-    fetch(`/delete/${taskId}`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
-    .then(data => {
-        window.location.reload();
-    });
+    async post(endpoint, data) {
+        return await fetch(`${this.baseURL}${endpoint}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+    }
+
 }
 

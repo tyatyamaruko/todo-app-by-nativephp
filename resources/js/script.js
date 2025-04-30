@@ -1,4 +1,4 @@
-import { createTask, deleteTask, updateTaskStatus } from "./apiClient.js";
+import ApiClient from "./apiClient.js";
 
 document.addEventListener("DOMContentLoaded", function() {
     let cards = document.querySelectorAll(".kanban-card");
@@ -33,34 +33,26 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function drop(event) {
         event.preventDefault();
-        const hoveredOnPending = event.target.id === "pending" || event.target.closest(".kanban-column-content").id === "pending";
-        const hoveredOnInProgress = event.target.id === "in-progress" || event.target.closest(".kanban-column-content").id === "in-progress";
-        const hoveredOnDone = event.target.id === "done" || event.target.closest(".kanban-column-content").id === "done";
-
-        if (hoveredOnPending || hoveredOnInProgress || hoveredOnDone) {
-            const id = event.dataTransfer.getData("text");
-            if (hoveredOnPending) {
-                const draggableElement = document.getElementById(id);
-                document.getElementById('pending').appendChild(draggableElement);
-                updateTaskStatus(id, "pending");
-            }
-            if (hoveredOnInProgress) {
-                const draggableElement = document.getElementById(id);
-                document.getElementById('in-progress').appendChild(draggableElement);
-                updateTaskStatus(id, "in-progress");
-            }
-            if (hoveredOnDone) {
-                const draggableElement = document.getElementById(id);
-                document.getElementById('done').appendChild(draggableElement);
-                updateTaskStatus(id, "done");
-            }
+        let statusType = null;
+        if (event.target.id === "pending" || event.target.closest(".kanban-column-content").id === "pending") {
+            statusType = "pending";
+        } else if (event.target.id === "in-progress" || event.target.closest(".kanban-column-content").id === "in-progress") {
+            statusType = "in-progress";
+        } else if (event.target.id === "done" || event.target.closest(".kanban-column-content").id === "done") {
+            statusType = "done";
         }
+        if (!statusType) {
+            return;
+        }
+        const id = event.dataTransfer.getData("text");
+        const draggableElement = document.getElementById(id);
+        document.getElementById(statusType).appendChild(draggableElement);
+        updateTaskStatus(id, statusType);
     }
 
     function deleteTaskHandle(event) {
         if (confirm("本当にこのタスクを削除しますか？")) {
             const id = event.target.closest(".kanban-card").id;
-            deleteTask(id);
             deleteTask(id);
         }
     }
@@ -100,3 +92,61 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 });
+
+const apiClient = new ApiClient("");
+
+function createTask (taskTitle, taskDescription,taskDeadline) {
+    apiClient.post('/create', {
+        title: taskTitle,
+        description: taskDescription,
+        deadline: taskDeadline
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    }
+    )
+    .then(_ => {
+        window.location.reload();
+    })
+    .catch(err => {
+        throw err;
+    });
+}
+
+function updateTaskStatus(taskId, status) {
+    apiClient.post(`/update/${taskId}`, {
+        status: status
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(_ => {
+        window.location.reload();
+    })
+    .catch(err => {
+        throw err;
+    });
+}
+
+function deleteTask(taskId) {
+    apiClient.post(`/delete/${taskId}`, {})
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(_ => {
+        window.location.reload();
+    })
+    .catch(err => {
+        throw err;
+    });
+}
+
