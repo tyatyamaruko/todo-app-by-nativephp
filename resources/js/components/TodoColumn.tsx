@@ -10,6 +10,7 @@ type Props = {
     onDragStart: (e: React.DragEvent<HTMLDivElement>, todoId: number) => void;
     onDragEnd: (e: React.DragEvent<HTMLDivElement>, newStatus: string) => void;
     onDragOver: (e: React.DragEvent<HTMLDivElement>) => void;
+    selectTodo: (todo: TodoInterface) => void;
 }
 
 
@@ -21,7 +22,7 @@ export default function TodoColumn(props: Props) {
             <div className="p-4 space-y-3 kanban-column-content flex-grow" onDragOver={props.onDragOver} onDrop={(e) => props.onDragEnd(e, props.status)}>
                 {
                     props.todos.map((todo) => (
-                        <TodoCard key={todo.id} todo={todo} onDragStart={props.onDragStart}></TodoCard>
+                        <TodoCard key={todo.id} todo={todo} onDragStart={props.onDragStart} selectTodo={props.selectTodo}></TodoCard>
                     ))
                 }
             </div>

@@ -4,15 +4,18 @@ import DueTo from "./deadline/DueTo";
 import OverDue from "./deadline/OverDue";
 import Today from "./deadline/Today";
 import DeleteButton from "./DeleteButton";
+import DetailButton from "./DetailButton";
 import ApiClient from "@/apiClient";
+import MarkdownPreview from '@uiw/react-markdown-preview';
 
 type Props = {
     todo: TodoInterface;
     onDragStart: (e: React.DragEvent<HTMLDivElement>, todoId: number) => void;
+    selectTodo: (todo: TodoInterface) => void;
 }
 
 
-export default function TodoColumn({ todo, onDragStart }: Props) {
+export default function TodoColumn({ todo, onDragStart, selectTodo }: Props) {
 
     const deleteTask = async () => {
         if (!confirm('本当に削除しますか？')) {
@@ -52,10 +55,13 @@ export default function TodoColumn({ todo, onDragStart }: Props) {
         <div onDragStart={(e) => onDragStart(e, todo.id)} className="kanban-card {{$status}} bg-white p-4 rounded-lg shadow-md flex justify-between items-center transition-shadow hover:shadow-lg" draggable="true" id={ String(todo.id) }>
             <div className="flex-shrink">
                 <h3 className="font-bold text-gray-800">{ todo.title }</h3>
-                <p className="text-sm text-gray-600">{ todo.description }</p>
+                <MarkdownPreview source={todo.description} style={{backgroundColor: 'transparent'}} />
                 { showDeadlineComponent() }
             </div>
-            <DeleteButton onClick={deleteTask}/>
+            <div className="flex flex-col space-y-2"> {/* 複数のボタンを持つための div を追加 */}
+                <DetailButton onClick={() => {selectTodo(todo)}} /> {/* カスタムの詳細ボタン */}
+                <DeleteButton onClick={deleteTask} />
+            </div>
         </div>
     );
 }

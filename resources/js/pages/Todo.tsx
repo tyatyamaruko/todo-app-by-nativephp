@@ -3,6 +3,7 @@ import TodoColumn from '../components/TodoColumn';
 import { Todo as TodoModel } from '@/models/Todo';
 import RightBottomFloatButton from '../components/RightBottomFloatButton';
 import TodoRegisterModal from '@/components/TodoRegisterModal';
+import TodoDetailModal from '@/components/TodoDetailModal';
 import { useState } from 'react';
 import ApiClient from '@/apiClient';
 
@@ -81,10 +82,16 @@ export default function Todo(todoProps: TodoProps) {
     }
 
 
-    const [isShowModal, setIsShowModal] = useState(false);
+    const [isShowRegisterModal, setIsShowRegisterModal] = useState(false);
+    const [isShowDetailModal, setIsShowDetailModal] = useState(false);
+    const [targetTodo, setTargetTodo] = useState<TodoModel | null>(null);
 
-    const toggleModal = () => {
-        setIsShowModal((isShowModal) => !isShowModal);
+    const toggleRegisterModal = () => {
+        setIsShowRegisterModal((isShowModal) => !isShowModal);
+    }
+
+    const toggleDetailModal = () => {
+        setTargetTodo(null);
     }
 
     return (
@@ -99,6 +106,7 @@ export default function Todo(todoProps: TodoProps) {
                         onDragStart={dragStart}
                         onDragEnd={drop}
                         onDragOver={dropOver}
+                        selectTodo={setTargetTodo}
                     />
                     <TodoColumn
                         title="in progress"
@@ -108,6 +116,7 @@ export default function Todo(todoProps: TodoProps) {
                         onDragStart={dragStart}
                         onDragEnd={drop}
                         onDragOver={dropOver}
+                        selectTodo={setTargetTodo}
                     />
                     <TodoColumn
                         title="done"
@@ -117,10 +126,12 @@ export default function Todo(todoProps: TodoProps) {
                         onDragStart={dragStart}
                         onDragEnd={drop}
                         onDragOver={dropOver}
+                        selectTodo={setTargetTodo}
                     />
                 </div>
-                <RightBottomFloatButton text="+" onClick={ () => toggleModal() } />
-                { isShowModal && <TodoRegisterModal onClick={ () => toggleModal() }/> }
+                <RightBottomFloatButton text="+" onClick={ () => toggleRegisterModal() } />
+                { isShowRegisterModal && <TodoRegisterModal onClick={ () => toggleRegisterModal() }/> }
+                { targetTodo !== null && <TodoDetailModal todo={targetTodo} onClick={toggleDetailModal}/> }
             </div>
         </div>
     );
