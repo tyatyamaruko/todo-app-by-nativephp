@@ -12,7 +12,7 @@ export default class ApiClient {
         });
     }
 
-    async post(endpoint, data) {
+    async post(endpoint, data = {}) {
         return await fetch(`${this.baseURL}${endpoint}`, {
             method: 'POST',
             headers: {
