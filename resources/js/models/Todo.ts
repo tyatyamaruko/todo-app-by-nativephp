@@ -30,16 +30,7 @@ export class Todo implements TodoInterface {
         return Math.floor(diffTime / (1000 * 60 * 60 * 24));
     }
 
-    isPending(): boolean {
-        return this.status === 'pending';
+    isStatus(status: string): boolean {
+        return this.status === status;
     }
-
-    isProgress(): boolean {
-        return this.status === 'in-progress';
-    }
-
-    isCompleted(): boolean {
-        return this.status === 'done';
-    }
-
 }

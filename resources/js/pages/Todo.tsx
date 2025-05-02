@@ -93,40 +93,43 @@ export default function Todo(todoProps: TodoProps) {
         setTargetTodo(null);
     }
 
+    const columnType = [
+        {
+            title: 'pending',
+            status: 'pending',
+            bgColor: 'bg-red-500',
+        },
+        {
+            title: 'in progress',
+            status: 'in-progress',
+            bgColor: 'bg-yellow-500',
+        },
+        {
+            title: 'done',
+            status: 'done',
+            bgColor: 'bg-green-500',
+        },
+    ];
+
     return (
         <div>
             <div className="flex flex-col items-center">
                 <div className="flex gap-8 p-6 bg-white shadow-lg rounded-lg">
-                    <TodoColumn
-                        title="pending"
-                        todos={todos.filter((todo) => todo.isPending())}
-                        status="pending"
-                        bgColor="bg-red-500"
-                        onDragStart={dragStart}
-                        onDragEnd={drop}
-                        onDragOver={dropOver}
-                        selectTodo={setTargetTodo}
-                    />
-                    <TodoColumn
-                        title="in progress"
-                        todos={todos.filter((todo) => todo.isProgress())}
-                        status="in-progress"
-                        bgColor="bg-yellow-500"
-                        onDragStart={dragStart}
-                        onDragEnd={drop}
-                        onDragOver={dropOver}
-                        selectTodo={setTargetTodo}
-                    />
-                    <TodoColumn
-                        title="done"
-                        todos={todos.filter((todo) => todo.isCompleted())}
-                        status="done"
-                        bgColor="bg-green-500"
-                        onDragStart={dragStart}
-                        onDragEnd={drop}
-                        onDragOver={dropOver}
-                        selectTodo={setTargetTodo}
-                    />
+                    {
+                        columnType.map((column) =>
+                            <TodoColumn
+                                key={column.status}
+                                title={column.title}
+                                todos={todos.filter((todo) => todo.isStatus(column.status))}
+                                status={column.status}
+                                bgColor={column.bgColor}
+                                onDragStart={dragStart}
+                                onDragEnd={drop}
+                                onDragOver={dropOver}
+                                selectTodo={(todo) => setTargetTodo(todo as TodoModel)}
+                            />
+                        )
+                    }
                 </div>
                 <RightBottomFloatButton text="+" onClick={ () => toggleRegisterModal() } />
                 { isShowRegisterModal && <TodoRegisterModal onClick={ () => toggleRegisterModal() }/> }

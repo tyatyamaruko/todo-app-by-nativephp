@@ -7,9 +7,7 @@ interface TodoInterface {
 
     isOverdue: () => boolean;
     dueTodays: () => number;
-    isPending: () => boolean;
-    isProgress: () => boolean;
-    isCompleted: () => boolean;
+    isStatus: (status: string) => boolean;
 };
 
 export default TodoInterface;
