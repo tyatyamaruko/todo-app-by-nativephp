@@ -3,10 +3,11 @@ import React from "react";
 import DueTo from "./deadline/DueTo";
 import OverDue from "./deadline/OverDue";
 import Today from "./deadline/Today";
-import DeleteButton from "./DeleteButton";
-import DetailButton from "./DetailButton";
+import Button from "./Button";
 import ApiClient from "@/apiClient";
 import MarkdownPreview from '@uiw/react-markdown-preview';
+import InformationIcon from "./icons/InformationIcon";
+import TrashIcon from "./icons/TrashIcon";
 
 type Props = {
     todo: TodoInterface;
@@ -58,9 +59,9 @@ export default function TodoColumn({ todo, onDragStart, selectTodo }: Props) {
                 <MarkdownPreview source={todo.description} style={{backgroundColor: 'transparent'}} />
                 { showDeadlineComponent() }
             </div>
-            <div className="flex flex-col space-y-2"> {/* 複数のボタンを持つための div を追加 */}
-                <DetailButton onClick={() => {selectTodo(todo)}} /> {/* カスタムの詳細ボタン */}
-                <DeleteButton onClick={deleteTask} />
+            <div className="flex flex-col space-y-2">
+                <Button children={<InformationIcon />} onClick={() => {selectTodo(todo)}} />
+                <Button children={<TrashIcon />} color="red" onClick={deleteTask} />
             </div>
         </div>
     );
