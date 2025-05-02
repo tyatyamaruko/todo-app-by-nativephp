@@ -16,6 +16,9 @@ class NativeAppServiceProvider implements ProvidesPhpIni
         Window::open()
             ->width(1200)
             ->height(700)
+            ->resizable(false)
+            ->maximizable(false)
+            ->minimizable(false)
             ->title('TODO LIST')
             ->showDevTools(false);
     }
