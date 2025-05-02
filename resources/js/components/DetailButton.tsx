@@ -13,7 +13,16 @@ export default function DetailsButton({ onClick }: Props) {
         className="h-5 w-5 fill-current"
         viewBox="0 0 24 24"
       >
-        <path d="M12 4.5c-4.14 0-7.5 3.36-7.5 7.5s3.36 7.5 7.5 7.5 7.5-3.36 7.5-7.5-3.36-7.5-7.5-7.5zm-.5 3v6.25l5.25 3.15.75-1.23-4.5-2.72V7.5h-1.5z" />
+        <text
+          x="12"
+          y="20"  // Positioned slightly lower for vertical centering
+          textAnchor="middle"
+          fontSize="22"
+          fontWeight="bold"  // Make the "i" bold
+          fill="currentColor"
+        >
+          i
+        </text>
       </svg>
     </button>
   );
