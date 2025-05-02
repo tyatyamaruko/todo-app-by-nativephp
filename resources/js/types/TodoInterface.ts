@@ -8,6 +8,7 @@ interface TodoInterface {
     isOverdue: () => boolean;
     dueTodays: () => number;
     isStatus: (status: string) => boolean;
+    omittedDescription: () => string;
 };
 
 export default TodoInterface;

@@ -56,7 +56,7 @@ export default function TodoColumn({ todo, onDragStart, selectTodo }: Props) {
         <div onDragStart={(e) => onDragStart(e, todo.id)} className="kanban-card {{$status}} bg-white p-4 rounded-lg shadow-md flex justify-between items-center transition-shadow hover:shadow-lg" draggable="true" id={ String(todo.id) }>
             <div className="flex-shrink">
                 <h3 className="font-bold text-gray-800">{ todo.title }</h3>
-                <MarkdownPreview source={todo.description} style={{backgroundColor: 'transparent'}} />
+                <MarkdownPreview source={todo.omittedDescription()} style={{backgroundColor: 'transparent', width: "180px"}} />
                 { showDeadlineComponent() }
             </div>
             <div className="flex flex-col space-y-2">

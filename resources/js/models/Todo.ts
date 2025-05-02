@@ -30,6 +30,14 @@ export class Todo implements TodoInterface {
         return Math.floor(diffTime / (1000 * 60 * 60 * 24));
     }
 
+    omittedDescription(): string {
+        const maxLength = 25;
+        if (this.description.length > maxLength) {
+            return this.description.substring(0, maxLength) + '...';
+        }
+        return this.description;
+    }
+
     isStatus(status: string): boolean {
         return this.status === status;
     }
