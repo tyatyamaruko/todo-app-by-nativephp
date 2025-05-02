@@ -4,7 +4,6 @@ import TextArea from './inputs/TextArea';
 import Calendar from './inputs/Calendar';
 import ApiClient from '@/apiClient';
 import MarkdownPreview from '@uiw/react-markdown-preview';
-import Select from './inputs/Select';
 
 type Props = {
     onClick?: () => void;
