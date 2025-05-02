@@ -83,7 +83,6 @@ export default function Todo(todoProps: TodoProps) {
 
 
     const [isShowRegisterModal, setIsShowRegisterModal] = useState(false);
-    const [isShowDetailModal, setIsShowDetailModal] = useState(false);
     const [targetTodo, setTargetTodo] = useState<TodoModel | null>(null);
 
     const toggleRegisterModal = () => {
