@@ -3,9 +3,12 @@ import TodoColumn from '../components/TodoColumn';
 import { Todo as TodoModel } from '@/models/Todo';
 import RightBottomFloatButton from '../components/RightBottomFloatButton';
 import TodoRegisterModal from '@/components/TodoRegisterModal';
-import TodoDetailModal from '@/components/TodoDetailModal';
 import { useState } from 'react';
 import ApiClient from '@/apiClient';
+import Modal from '@/components/Modal';
+import Text from '@/components/inputs/Text';
+import MarkdownPreview from '@uiw/react-markdown-preview';
+import Calendar from '@/components/inputs/Calendar';
 
 type TodoProps = {
     todos: TodoObject[];
@@ -111,6 +114,25 @@ export default function Todo(todoProps: TodoProps) {
         },
     ];
 
+    const previewStyle: React.CSSProperties = {
+        height: "300px",
+        width: "700px",
+        overflowY: "scroll",
+    }
+
+    const todoDetail = (
+        <>
+            <Text placeholder="タスク名" disabled={ true } value={targetTodo?.title}/>
+            <div className="flex-grow">
+                <div style={previewStyle} className="prose border border-gray-150 p-3 w-full mb-4 rounded-md">
+                    <MarkdownPreview source={targetTodo?.description} style={{backgroundColor: 'transparent'}}
+                    />
+                </div>
+            </div>
+            <Calendar disabled={ true } value={targetTodo?.deadline ?? undefined}/>
+        </>
+    )
+
     return (
         <div>
             <div className="flex flex-col items-center">
@@ -133,7 +155,7 @@ export default function Todo(todoProps: TodoProps) {
                 </div>
                 <RightBottomFloatButton text="+" onClick={ () => toggleRegisterModal() } />
                 { isShowRegisterModal && <TodoRegisterModal onClick={ () => toggleRegisterModal() }/> }
-                { targetTodo !== null && <TodoDetailModal todo={targetTodo} onClick={toggleDetailModal}/> }
+                { targetTodo !== null && <Modal onClick={ () => toggleDetailModal() } children={todoDetail} />}
             </div>
         </div>
     );
