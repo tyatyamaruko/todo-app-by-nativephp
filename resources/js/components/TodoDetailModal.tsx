@@ -15,7 +15,7 @@ export default function TodoDetailModal({ todo, onClick }: Props) {
         height: '550px'
     }
     const previewStyle: React.CSSProperties = {
-        height: "200px",
+        height: "300px",
         width: "700px",
         overflowY: "scroll",
     }
